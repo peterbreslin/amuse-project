@@ -6,18 +6,20 @@ from amuse.units import units, constants
 from amuse.ext.orbital_elements import new_binary_from_orbital_elements
 
 
-''' Function to create a particle system of the Galileann moon(s) with Jupiter and the Sun.
-
-	Input: list of Galileann Moon names in string format (any combination of: io, europa, ganymede, 
-	callisto), list of eccentricities, list of inclinations (dimensionless).
-
-	Returns: Particle system of the given moon set with the Sun and Jupiter.
-
-	Example: system = make_moon_system(moons=['io', 'europa'], eccentricities=[0.4, 0.6], 
-	inclinations=[50, 60]) '''
-
-
 def make_moon_system(moons, eccentricities, inclinations, *args):
+
+    ''' Function to create a particle system of the Galileann moon(s) with Jupiter and the Sun.
+        
+    @Input: 
+        list of Galileann Moon names in string format (any combination of: io, europa, ganymede, 
+        callisto), list of eccentricities, list of inclinations (dimensionless).
+               
+    @Returns: 
+        Particle system of the given moon set with the Sun and Jupiter.
+        
+    @Example: 
+        system = make_moon_system(moons=['io', 'europa'], eccentricities=[0.4, 0.6], 
+        inclinations=[50, 60]) '''
   
 
     # Assigning our variables

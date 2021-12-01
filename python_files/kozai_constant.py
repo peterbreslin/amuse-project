@@ -3,12 +3,20 @@ import numpy as np
 from amuse.lab import units
 import matplotlib.pyplot as plt
 
-''' The Kozai-constant Lz should be (approximately) conserved. This function will check this by computing Lz.
-    Input: list of eccentricites and inclinations obtained from the integrate_system() function
-    Returns: array of Lz's for each instance for each moon, and plots!
-    Example: lz = check_lz(ecc, inc) '''
     
 def check_lz(moons, ecc, inc, time_range, savefig=False, figname='kozai_constant'):
+
+    ''' The Kozai-constant Lz should be (approximately) conserved. This function will check this by computing Lz.
+    
+    @Input: 
+        list of moons, eccentricites and inclinations obtained from the integrate_system() function
+    
+    @Returns: 
+        array of Lz's for each instance for each moon, and plots!
+    
+    @Example: 
+        lz = check_lz(moons, ecc, inc) '''
+
     
     # Lz=sqrt(1-e**2)*cos(i)
     lz = np.zeros_like(ecc)
