@@ -11,13 +11,13 @@ from amuse.lab import Huayno, nbody_system
 from amuse.ext.orbital_elements import get_orbital_elements_from_binary
 
 
-def integrate_system(moons, eccentricities, inclinations, dt, end_time):
+def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time):
 
     ''' Function to integrate the system over time using a gravity code.
 
     @Input: 
         list of Galileann Moon names in string format (any combination (but in order!) of: io, 
-        europa, ganymede, callisto), eccentricities, inclinations, integration time step and
+        europa, ganymede, callisto), eccentricities, inclinations, kdt, integration time step and
         end time.
 
     @Returns: 
@@ -61,7 +61,7 @@ def integrate_system(moons, eccentricities, inclinations, dt, end_time):
     a_ca = [] | units.m
 
     # Tidal force
-    tides = tf.TidalForce()
+    tides = tf.TidalForce(method='complex', kdt=kdt)
     tides.add_particles(system)
     
     # Bridge for tidal effects

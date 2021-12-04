@@ -59,6 +59,10 @@ def make_moon_system(moons, eccentricities, inclinations, *args):
         moon.position = binary[1].position + jupiter.position
         moon.velocity = binary[1].velocity + jupiter.velocity
         
+        #system.move_to_center()
+
+        # Removing the Sun
+        system.remove_particle(system[0])
         system.move_to_center()
     
     
