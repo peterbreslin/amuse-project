@@ -16,15 +16,15 @@ ecc, inc, sma, Etot, Ediss, model_time = integrate_system(moons, eccentricities,
 	kdt, dt, end_time)
 
 # Saving data
-filename  = 'alice_results.hdf5'
-results = h5py.File(filename, 'w')
+filename  = 'alice_europa.hdf5'
+d = h5py.File(filename, 'w')
 
-d = results.create_group('europa')
+#d = results.create_group('europa')
 d['inc'] = inc[0].value_in(units.deg)
 d['ecc'] = ecc[0]
 d['sma'] = sma[0].value_in(units.m)
-d['Etot'] = Etot
-d['Ediss'] = Ediss
+d['etot'] = Etot
+d['ediss'] = Ediss
 d['time'] = model_time.value_in(units.yr)
 
-result.close()
+d.close()
