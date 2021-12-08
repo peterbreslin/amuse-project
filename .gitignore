@@ -1,0 +1,11 @@
+
+alice_scripts/kozai/ca_kozai/ca_kozai.sh
+alice_scripts/kozai/debug_kozai/debug_kozai.sh
+alice_scripts/kozai/eu_kozai/eu_kozai.sh
+alice_scripts/kozai/ga_kozai/ga_kozai.sh
+alice_scripts/kozai/io_kozai/io_kozai.sh
+alice_scripts/tidal_only/ca_tidal/ca_tidal.sh
+alice_scripts/tidal_only/debug_tidal/debug_tidal.sh
+alice_scripts/tidal_only/eu_tidal/eu_tidal.sh
+alice_scripts/tidal_only/ga_tidal/ga_tidal.sh
+alice_scripts/tidal_only/io_tidal/io_tidal.sh
