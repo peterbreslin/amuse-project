@@ -11,7 +11,7 @@ from amuse.lab import Huayno, nbody_system
 from amuse.ext.orbital_elements import get_orbital_elements_from_binary
 
 
-def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time):
+def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, kozai=True):
 
     ''' Function to integrate the system over time using a gravity code.
 
@@ -33,7 +33,7 @@ def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time):
     start_time = time.time()
     
     # Getting system
-    system = make_moon_system(moons, eccentricities, inclinations)
+    system = make_moon_system(moons, eccentricities, inclinations, kozai=kozai)
     
     # Converting Nbody
     converter = nbody_system.nbody_to_si(system.mass.sum(), system[1].position.length())

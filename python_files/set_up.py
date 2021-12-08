@@ -6,7 +6,7 @@ from amuse.units import units, constants
 from amuse.ext.orbital_elements import new_binary_from_orbital_elements
 
 
-def make_moon_system(moons, eccentricities, inclinations, *args):
+def make_moon_system(moons, eccentricities, inclinations, kozai=True, *args):
 
     ''' Function to create a particle system of the Galileann moon(s) with Jupiter and the Sun.
         
@@ -41,6 +41,10 @@ def make_moon_system(moons, eccentricities, inclinations, *args):
     system[1].name = 'jupiter'
     jupiter = system[system.name=='jupiter']
     jupiter.semimajor_axis = a_jup
+    
+    if kozai != True:
+        system.remove_particle(system[0]) #removing the Sun
+        system.move_to_center()
     
     
     # Function to automate addition of particles
