@@ -62,9 +62,8 @@ class TidalForce():
                 self.particles[~mask].velocity.value_in(units.m/units.s)
         v = np.sqrt(np.sum(np.square(v_vec),axis=1)).reshape((num_sat,1))
         
-        omega = v_vec/r
+        omega = np.cross(r_vec,v_vec)/r**2
         
-        #Tidal decay and orbital circularization in closein twoplanet systems
         
         #calculating the tidal force
         f = -3*kdt*G*(M**2)*(R_sat**5)/(r**10)*( 2*r_vec*(np.sum(r_vec*v_vec, axis=1).reshape((num_sat,1))) +\
