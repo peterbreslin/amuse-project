@@ -6,9 +6,8 @@ from amuse.units import units, constants
 
 # Tidal forces
 class TidalForce():
-    def __init__(self, alpha=0.1, kdt=2e-2, method='simple'):
+    def __init__(self, alpha=0.1, kdt=2e-2):
         self.alpha=alpha
-        self.method=method
         self.kdt = kdt
         
     
@@ -38,10 +37,7 @@ class TidalForce():
     
     
     def get_gravity_at_point(self, eps, x, y, z):
-        if self.method == 'simple':
-            return self.tidal_acceleration(k=0.565, alpha=self.alpha) #k from literature, alpha guess
-        elif self.method == 'complex':
-            return self.comp_tidal_acceleration(kdt=self.kdt) #k from literature, alpha guess
+        return self.comp_tidal_acceleration(kdt=self.kdt) #k from literature, alpha guess
     
     def comp_tidal_acceleration(self, kdt):
         #the number of satellites is needed to reshape the arrays such that all arrays can be contracted
