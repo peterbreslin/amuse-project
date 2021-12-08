@@ -44,7 +44,6 @@ def make_moon_system(moons, eccentricities, inclinations, kozai=True, *args):
     
     if kozai != True:
         system.remove_particle(system[0]) #removing the Sun
-        system.move_to_center()
     
     
     # Function to automate addition of particles
