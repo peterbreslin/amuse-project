@@ -14,7 +14,7 @@ inclinations = [0]
 dt = 100
 end_time = 1e4
 kdt = 360
-ecc, inc, sma, Etot, Ediss, model_time = integrate_system(moons, eccentricities, inclinations, 
+ecc, inc, sma, model_time = integrate_system(moons, eccentricities, inclinations, 
 	kdt, dt, end_time, kozai=False)
 
 print('Model evolved, saving data')
@@ -26,8 +26,6 @@ d = h5py.File(filename, 'w')
 d['inc'] = inc[0].value_in(units.deg)
 d['ecc'] = ecc[0]
 d['sma'] = sma[0].value_in(units.m)
-d['etot'] = Etot
-d['ediss'] = Ediss
 d['time'] = model_time.value_in(units.yr)
 
 d.close()
