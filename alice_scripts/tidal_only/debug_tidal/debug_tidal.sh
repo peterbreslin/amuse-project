@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=debug
+#SBATCH --job-name=debug_tidal
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
 #SBATCH --mail-user="pbreslin@tcd.ie"
@@ -22,5 +22,5 @@ echo "[$SHELL] ## current working directory: "$CWD
 
 # Run the file
 echo "[$SHELL] ## Run script"
-python3 debug_test.py
+python3 debug_tidal.py
 echo "[$SHELL] ## Script finished"
