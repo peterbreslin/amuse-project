@@ -36,7 +36,7 @@ def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, koz
     system = make_moon_system(moons, eccentricities, inclinations, kozai=kozai)
     
     # Converting Nbody
-    converter = nbody_system.nbody_to_si(system.mass.sum(), system[1].position.length())
+    converter = nbody_system.nbody_to_si(system.mass.sum(), system[(system.name=='jupiter')].position.length())
     
     # Gravity code
     gravity = Huayno(converter)
@@ -67,7 +67,8 @@ def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, koz
     # Bridge for tidal effects
     our_bridge = bridge.Bridge(use_threading=False)    
     our_bridge.add_system(gravity, (tides,))
-    
+    our_bridge.timestep = 0.2 | units.day    
+
     # Channels
     channel_grav = gravity.particles.new_channel_to(system)
     channel_tf = tides.particles.new_channel_to(system)
