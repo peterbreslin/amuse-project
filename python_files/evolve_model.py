@@ -61,7 +61,7 @@ def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time):
     a_ca = [] | units.m
 
     # Tidal force
-    tides = tf.TidalForce(method='complex', kdt=kdt)
+    tides = tf.TidalForce(kdt=kdt)
     tides.add_particles(system)
     
     # Bridge for tidal effects
