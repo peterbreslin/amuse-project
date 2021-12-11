@@ -9,3 +9,4 @@ alice_scripts/tidal_only/debug_tidal/debug_tidal.sh
 alice_scripts/tidal_only/eu_tidal/eu_tidal.sh
 alice_scripts/tidal_only/ga_tidal/ga_tidal.sh
 alice_scripts/tidal_only/io_tidal/io_tidal.sh
+testing_results.ipynb
