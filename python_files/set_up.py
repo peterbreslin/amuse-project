@@ -12,14 +12,15 @@ def make_moon_system(moons, eccentricities, inclinations, kozai=True, *args):
         
     @Input: 
         list of Galileann Moon names in string format (any combination of: io, europa, ganymede, 
-        callisto), list of eccentricities, list of inclinations (dimensionless).
+        callisto), list of eccentricities, list of inclinations (dimensionless), boolean 
+        response to kozai (sets whether or not to include the sun, default: kozai=True).
                
     @Returns: 
-        Particle system of the given moon set with the Sun and Jupiter.
+        Particle system of the given moon(s) with Jupiter - and the Sun if kozai=True.
         
     @Example: 
         system = make_moon_system(moons=['io', 'europa'], eccentricities=[0.4, 0.6], 
-        inclinations=[50, 60]) '''
+        inclinations=[50, 60], kozai=False) '''
   
 
     # Assigning our variables
@@ -48,7 +49,7 @@ def make_moon_system(moons, eccentricities, inclinations, kozai=True, *args):
     sun.radius = rSun
     
     if kozai != True:
-        system.remove_particle(system[0]) #removing the Sun
+        system.remove_particle(system[0]) # removing the Sun (to look at tidal effects only)
         system.move_to_center()
     
     
