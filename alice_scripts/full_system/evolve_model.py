@@ -13,20 +13,20 @@ from amuse.ext.orbital_elements import get_orbital_elements_from_binary
 
 def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, kozai=True):
 
-    ''' Function to integrate the system over time using a gravity code.
+    ''' Function to integrate our system over time for both gravity and tidal evolutions.
 
     @Input: 
-        list of Galileann Moon names in string format (any combination (but in order!) of: io, 
-        europa, ganymede, callisto), eccentricities, inclinations, kdt, integration time step and
-        end time.
+        list of Galileann Moon names in string format (expected in the order: io, europa, ganymede,
+        callisto), eccentricities, inclinations, kdt, integration time step, end time, boolean 
+        response to kozai (sets whether or not to include the sun, default: kozai=True).
 
     @Returns: 
-        list of evolved eccentrities, inclinations, semimajor-axis values, total eneries, 
-        energy dissipation, and  the time range at time step intervals.
+        list of evolved eccentrities, inclinations, semimajor-axis values, and the time range at 
+        time step intervals.
 
     @Example: 
-        ecc, inc, sma, Etot, Ediss, time_range = integrate_system(moons=['io'], 
-        eccentricities=[0.3], inclinations=[50], 10|units.yr, 1000|units.yr) '''
+        ecc, inc, sma, time_range = integrate_system(moons=['io', 'callsito'], 
+        eccentricities=[0.3, 0.6], inclinations=[50, 110], 10, 1000, kozai=False) '''
         
     
     # Checking how long code takes to run
@@ -36,7 +36,8 @@ def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, koz
     system = make_moon_system(moons, eccentricities, inclinations, kozai=kozai)
     
     # Converting Nbody
-    converter = nbody_system.nbody_to_si(system.mass.sum(), system[(system.name=='jupiter')].position.length())
+    converter = nbody_system.nbody_to_si(system.mass.sum(), 
+        system[(system.name=='jupiter')].position.length())
     
     # Gravity code
     gravity = Huayno(converter)
@@ -67,18 +68,17 @@ def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, koz
     # Bridge for tidal effects
     our_bridge = bridge.Bridge(use_threading=False)    
     our_bridge.add_system(gravity, (tides,))
-    #our_bridge.timestep = 0.2 | units.day    
+    our_bridge.timestep = dt|units.yr  
 
     # Channels
     channel_grav = gravity.particles.new_channel_to(system)
     channel_tf = tides.particles.new_channel_to(system)
     
     # Running gravity code
-    dt = dt|units.yr
-    end_time = end_time|units.yr
-    model_time = np.arange(0, end_time.value_in(units.yr), dt.value_in(units.yr)) * 1|units.yr
-    
-    for tstep in model_time:
+    time_range = np.arange(0, end_time, dt) | units.yr
+
+    for i,t in enumerate(time_range):
+        print("Time=", t.in_(units.yr))
         
         if 'io' in moons:
             orbit_io = get_orbital_elements_from_binary(
@@ -96,12 +96,11 @@ def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, koz
             orbit_ca = get_orbital_elements_from_binary(
                 system[(system.name=='jupiter')|(system.name=='callisto')], G=constants.G)
         
-        
-        our_bridge.evolve_model(tstep)
+        our_bridge.evolve_model(t, timestep=dt|units.yr)
         channel_grav.copy()
         channel_tf.copy()
         
-        
+
         if 'io' in moons:
             a_io.append(orbit_io[2])
             e_io.append(orbit_io[3])
@@ -127,7 +126,6 @@ def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, koz
         
         
     our_bridge.stop()
-    
     
     ecc = []
     inc = [] | units.deg
@@ -157,4 +155,4 @@ def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, koz
     # Printing runtime
     print('Runtime: %s seconds' % (time.time() - start_time))
     
-    return ecc, inc, sma, model_time
+    return ecc, inc, sma, time_range
