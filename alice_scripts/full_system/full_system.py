@@ -11,8 +11,8 @@ eccentricities = [0.2, 0.2, 0.2, 0.2]
 inclinations = [80, 70, 60, 50]
 
 # Evolving the system 
-dt = 10
-end_time = 2e6
+dt = 100
+end_time = 1000
 kdt = 360
 ecc, inc, sma, model_time = integrate_system(moons, eccentricities, inclinations, 
 	kdt, dt, end_time, kozai=True)
