@@ -5,7 +5,7 @@
 #SBATCH --mail-user="pbreslin@tcd.ie"
 #SBATCH --mail-type="ALL"
 #SBATCH --time=24:00:00
-#SBATCH --partition=cpu-medium
+#SBATCH --partition=gpu-medium
 #SBATCH -N 1 -n 24
 
 # load modules (assuming you start from the default environment)

@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --job-name=ga_kozai
+#SBATCH --job-name=job_ca
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
 #SBATCH --mail-user="pbreslin@tcd.ie"
 #SBATCH --mail-type="ALL"
 #SBATCH --time=24:00:00
-#SBATCH --partition=cpu-medium
+#SBATCH --partition=gpu-medium
 #SBATCH -N 1 -n 24
 
 # load modules (assuming you start from the default environment)
@@ -22,5 +22,5 @@ echo "[$SHELL] ## current working directory: "$CWD
 
 # Run the file
 echo "[$SHELL] ## Run script"
-python3 ga_kozai.py
+python3 ca.py
 echo "[$SHELL] ## Script finished"

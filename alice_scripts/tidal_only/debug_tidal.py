@@ -11,8 +11,8 @@ eccentricities = [0.2]
 inclinations = [0]
 
 # Evolving the system 
-dt = 100
-end_time = 1e4
+dt = 10
+end_time = 1e3
 kdt = 360
 ecc, inc, sma, model_time = integrate_system(moons, eccentricities, inclinations, 
 	kdt, dt, end_time, kozai=False)
@@ -20,7 +20,7 @@ ecc, inc, sma, model_time = integrate_system(moons, eccentricities, inclinations
 print('Model evolved, saving data')
 
 # Saving data
-filename  = 'debug_tidal.hdf5'
+filename  = 'tidal_debug.hdf5'
 d = h5py.File(filename, 'w')
 
 d['inc'] = inc[0].value_in(units.deg)
