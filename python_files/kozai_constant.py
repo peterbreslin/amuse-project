@@ -5,53 +5,45 @@ import matplotlib.pyplot as plt
 
     
 def check_lz(moons, ecc, inc, time_range, savefig=False, figname='kozai_constant'):
+    
+    ''' The Kozai-constant Lz should be (approximately) conserved for one moon.
+        Approximate Law: Lz = sqrt(1 - e**2) * cos(i) 
 
-    ''' The Kozai-constant Lz should be (approximately) conserved. This function will check this by computing Lz.
-    
-    @Input: 
-        list of moons, eccentricites and inclinations obtained from the integrate_system() function
-    
-    @Returns: 
-        array of Lz's for each instance for each moon, and plots!
-    
-    @Example: 
-        lz = check_lz(moons, ecc, inc) '''
+        @input:
+            List of moons, retrieved eccentricities, inclinations, semimajor-axes, and time range. 
+            Option to save figure as a PNG if desired.
 
+        @Output:
+            Plot of the Kozai-constant for a given moon to check if this conservation law holds.
+
+        Example:
+            check_lz(moons, ecc, inc, time_range, savefig=True, figname='my_plot') '''
     
-    # Lz=sqrt(1-e**2)*cos(i)
-    lz = np.zeros_like(ecc)
-    for i in range(len(lz[0])):
-        for j in range(len(lz[0:])):
-            x = np.sqrt(1 - ecc[j][i]**2) * np.cos(inc[j][i].value_in(units.rad))
-            lz[j][i] = x
+
+    t = time_range.value_in(units.yr)
+    e = ecc[0]
+    i = inc[0].value_in(units.rad)
+    
+    # Equation
+    lz = np.sqrt(1 - np.array(e)**2) * np.cos(i)
     
     # Standard deviations
-    sdev = []
-    for i in range(len(lz[0:])):
-        y = np.std(lz[i:])
-        sdev.append(y)
-
+    sdev = np.std(lz)
+    
     # Plotting
-    colours = ['r', 'g', 'b', 'm']     
-    plt.rcParams.update({'font.size': 20})
+    plt.rcParams.update({'font.size': 25})
     
-    # Sizes of subplots are annoying
-    if len(lz[0:]) < 4:
-        figsize=[10,8]
-    else:
-        figsize=[10,12]
+    fig, ax = plt.subplots(figsize=[14,7], tight_layout=True)    
     
-    fig, ax = plt.subplots(len(lz[0:]), 1, figsize=figsize, constrained_layout=True)    
+    ax.set_title('Kozai-constant', pad=10)
+    ax.plot(t, lz, '-o', c='tab:purple', lw=2)
+    ax.plot([], [], ' ', label='std = '+str(round(sdev,5)))
+    ax.set_ylabel(r'L$_{z}$', labelpad=10)
+    ax.set_xlabel('time [yr]')
+    ax.tick_params(direction='in', length=6, width=2, top=True, right=True)
+    ax.legend(frameon=False) 
     
-    for i, ax in enumerate(fig.axes):
-        ax.plot(time_range.value_in(units.yr), lz[i], '-o', color=colours[i], lw=1, label=moons[i])
-        ax.plot([], [], ' ', label='std = '+str(round(sdev[i],3)))
-        ax.legend(fontsize=16) 
-        
-    plt.suptitle('Lz vs Time')
-    #plt.subplots_adjust(top=0.94)
     if savefig:
         plt.savefig(figname+'.png', facecolor='w', bbox_inches='tight')
+    
     plt.show()
-                           
-    return lz
