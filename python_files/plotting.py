@@ -30,6 +30,7 @@ def plot_tracks(moons, ecc, inc, sma, time_range, savefig=False, figname='evolve
     ax3.set_xlabel('Time [years]')
     ax3.legend()    
     
+<<<<<<< Updated upstream
     plt.suptitle('Huayno Code (dt=10yrs)')
     plt.subplots_adjust(top=0.94)
     if savefig:
@@ -58,4 +59,20 @@ def plot_energy_evolution(moons, Etot, time_range, savefig=False, figname='energ
     #plt.subplots_adjust(top=0.94)
     if savefig:
     	plt.savefig(figname+'.png', facecolor='w', bbox_inches='tight')
+=======
+    ax1.legend()
+    ax2.legend()
+    ax3.legend()
+  
+    ax1.set_title('Model Evolution')
+    ax3.set_xlabel('time [years]')
+
+    #ax1.set_xlim([0,1000])
+    #ax2.set_xlim([0,1000])
+    #ax3.set_xlim([0,1000])
+
+    if savefig:
+        plt.savefig(figname+'.png', facecolor='w', bbox_inches='tight')
+
+>>>>>>> Stashed changes
     plt.show()
