@@ -48,14 +48,11 @@ def plot_tracks(moons, ecc, inc, sma, time_range, savefig=False, figname='evolve
     ax1.set_title('Model Evolution')
     ax3.set_xlabel('time [years]')
 
-    ax1.set_xlim([0,1000])
-    ax2.set_xlim([0,1000])
-    ax3.set_xlim([0,1000])
+    #ax1.set_xlim([0,1000])
+    #ax2.set_xlim([0,1000])
+    #ax3.set_xlim([0,1000])
 
     if savefig:
         plt.savefig(figname+'.png', facecolor='w', bbox_inches='tight')
 
     plt.show()
-    
-    
-plot_tracks(moons, ecc, inc, sma, time_range)
