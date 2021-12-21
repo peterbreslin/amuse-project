@@ -5,61 +5,42 @@ import matplotlib.pyplot as plt
 
 
 def plot_tracks(moons, ecc, inc, sma, time_range, savefig=False, figname='evolved_tracks'):
-    
-    plt.rcParams.update({'font.size': 20})
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=[20, 15], tight_layout=True)
-    colours = ['r', 'g', 'b', 'm']
 
-    for i in range(len(moons)):
-        ax1.plot(time_range.value_in(units.yr), inc[i].value_in(units.deg), color=colours[i], 
-        	label=moons[i])   
-    ax1.set_ylabel('Inclination [deg]')
-    ax1.legend()
+    ''' Plotting evolutionary tracks for given moons.
 
-    for i in range(len(moons)):
-        ax2.plot(time_range.value_in(units.yr), np.array(ecc[i]), color=colours[i], 
-        	label=moons[i])   
-    ax2.set_ylabel('Eccentricity')
-    ax2.set_xlabel('Time [years]')
-    ax2.legend()
-    
-    for i in range(len(moons)):
-        ax3.plot(time_range.value_in(units.yr), sma[i].value_in(units.m), color=colours[i], 
-        	label=moons[i])   
-    ax3.set_ylabel('Semimajor Axis')
-    ax3.set_xlabel('Time [years]')
-    ax3.legend()    
-    
-<<<<<<< Updated upstream
-    plt.suptitle('Huayno Code (dt=10yrs)')
-    plt.subplots_adjust(top=0.94)
-    if savefig:
-    	plt.savefig(figname+'.png', facecolor='w', bbox_inches='tight')
-    plt.show()
+        @input:
+            List of moons, retrieved eccentricities, inclinations, semimajor-axes, and time range. 
+            Option to save figure as a PNG if desired.
 
+        @Output:
+            Plot of the evolutionary tracks for the eccentricities, inclinations, semimajor-axes.
 
-def plot_energy_evolution(moons, Etot, time_range, savefig=False, figname='energy_evolution'):
+        Example:
+            plot_tracks(moons, ecc, inc, time_range, savefig=True, figname='my_plot') '''
+
     
-    colours = ['r', 'g', 'b', 'm']     
-    plt.rcParams.update({'font.size': 20})
-    
-    # Sizes of subplots are annoying
-    if len(moons) < 4:
-        figsize=[10,8]
-    else:
-        figsize=[10,12]
-    
-    fig, ax = plt.subplots(len(moons), 1, figsize=figsize, constrained_layout=True)     
-    
-    for i, ax in enumerate(fig.axes):
-        ax.plot(time_range.value_in(units.yr), Etot,'-o', color=colours[i], lw=1, label=moons[i])
-        ax.legend(fontsize=16) 
+    plt.rcParams.update({'font.size': 25})
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=[25, 15], tight_layout=True, sharex=True)
+    cb = ['#e41a1c', '#ff7f00', '#999999', '#377eb8']
+
+    t = time_range.value_in(units.yr)
+    inc = inc.value_in(units.deg)
+    ecc = np.array(ecc)
+    sma = sma.value_in(units.m)
+
+    for i in range(len(moons)): 
+        ax1.plot(t, ecc[i], color=cb[i], label=moons[i], lw=2)   
+        ax2.plot(t, inc[i], color=cb[i], label=moons[i], lw=2) 
+        ax3.plot(t, sma[i], color=cb[i], label=moons[i], lw=2)    
         
-    plt.suptitle('Total Energy vs Time')
-    #plt.subplots_adjust(top=0.94)
-    if savefig:
-    	plt.savefig(figname+'.png', facecolor='w', bbox_inches='tight')
-=======
+    ax1.set_ylabel('eccentricity', labelpad=10)
+    ax2.set_ylabel('inclination [deg]', labelpad=10)
+    ax3.set_ylabel('semimajor axis', labelpad=10)
+    
+    ax1.tick_params(direction='in', length=6, width=2, top=True, right=True)
+    ax2.tick_params(direction='in', length=6, width=2, top=True, right=True)    
+    ax3.tick_params(direction='in', length=6, width=2, top=True, right=True)
+    
     ax1.legend()
     ax2.legend()
     ax3.legend()
@@ -74,5 +55,4 @@ def plot_energy_evolution(moons, Etot, time_range, savefig=False, figname='energ
     if savefig:
         plt.savefig(figname+'.png', facecolor='w', bbox_inches='tight')
 
->>>>>>> Stashed changes
     plt.show()

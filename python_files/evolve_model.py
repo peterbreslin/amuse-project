@@ -11,13 +11,13 @@ from amuse.lab import Huayno, nbody_system
 from amuse.ext.orbital_elements import get_orbital_elements_from_binary
 
 
-def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, kozai=True):
+def integrate_system(moons, eccentricities, inclinations, dt, end_time, kdt=2e-2, kozai=True):
 
     ''' Function to integrate our system over time for both gravity and tidal evolutions.
 
     @Input: 
         list of Galileann Moon names in string format (expected in the order: io, europa, ganymede,
-        callisto), eccentricities, inclinations, kdt, integration time step, end time, boolean 
+        callisto), eccentricities, inclinations, integration time step, end time, kdt, boolean 
         response to kozai (sets whether or not to include the sun, default: kozai=True).
 
     @Returns: 
@@ -26,7 +26,7 @@ def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, koz
 
     @Example: 
         ecc, inc, sma, time_range = integrate_system(moons=['io', 'callsito'], 
-        eccentricities=[0.3, 0.6], inclinations=[50, 110], 10, 1000, kozai=False) '''
+        eccentricities=[0.3, 0.6], inclinations=[50, 110], 10, 1000, kdt=360, kozai=False) '''
         
     
     # Checking how long code takes to run
@@ -77,8 +77,10 @@ def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, koz
     # Running gravity code
     time_range = np.arange(0, end_time, dt) | units.yr
 
+    print('Integrating system over {} years'.format(end_time))
+    print('System evolves every {} years'.format(dt))
     for i,t in enumerate(time_range):
-        print("Time=", t.in_(units.yr))
+        #print("Time=", t.in_(units.yr))
         
         if 'io' in moons:
             orbit_io = get_orbital_elements_from_binary(
@@ -152,7 +154,6 @@ def integrate_system(moons, eccentricities, inclinations, kdt, dt, end_time, koz
         sma.append(a_ca)
         
     
-    # Printing runtime
-    print('Runtime: %s seconds' % (time.time() - start_time))
+    print('Model fully evolved: Runtime: %s seconds' % (time.time() - start_time))
     
     return ecc, inc, sma, time_range
