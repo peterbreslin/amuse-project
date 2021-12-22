@@ -23,7 +23,7 @@ print('Model evolved, saving data')
 filename  = 'debug.hdf5'
 d = h5py.File(filename, 'w')
 
-d['inc'] = inc[0]
+d['inc'] = inc[0].value_in(units.deg)
 d['ecc'] = ecc[0]
 d['sma'] = sma[0].value_in(units.m)
 d['time'] = model_time.value_in(units.yr)
